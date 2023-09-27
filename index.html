@@ -131,18 +131,15 @@
         ]
 
         for (v of prontos) {
-            const botao = document.querySelector(".pdf").cloneNode()
+            const a = document.createElement("a")
+            a.href = `https://acervocmsp.educacao.sp.gov.br/${v[1]}.pdf`
+            a.textContent = v[0]
+            a.style.color = 'white'
+            a.style['text-shadow'] ='1px 1px 3px '+v[2]
+            a.style.fontFamily = 'Arial'
+            a.style.margin = '5px'
 
-            botao.style.display = 'block'
-            botao.textContent = v[0]
-            botao.style.margin = '5px 0px'
-            botao.style.width = '80%'
-            botao.style["text-shadow"] = '1px 1px 3px '+v[2]
-            botao.addEventListener("click", () => {
-                const link = `https://acervocmsp.educacao.sp.gov.br/${v[1]}.pdf`
-                window.location.replace(link)
-            })
-            document.querySelector("body").appendChild(botao)
+            document.querySelector("body").appendChild(a)
         }
     </script>
 </body>
