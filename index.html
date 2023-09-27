@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samuel Moretti</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgb(8, 8, 8);
+        }
+
+        .top {
+            padding: 20px;
+            background-color: black;
+            text-align: center;
+        }
+
+        .top h1 {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-shadow: 2px 2px 10px white;
+        }
+
+        .id {
+            margin: 7px 0;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: black;
+            border: none;
+            box-shadow: 0px 0px 3px white;
+            color: white
+        }
+
+        h3 {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-shadow: 2px 2px 10px white;
+        }
+
+        button {
+            padding: 6px 50px;
+            background-color: rgb(13, 13, 13);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0px 0px 3px white;
+        }
+
+        button:hover{
+            box-shadow: 1px 1px 3px rgb(224, 0, 0);
+            transition:ease-in-out 0.5s
+        }
+
+        .invadir {
+            margin: 5px 0px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <h1>Acesse o PDF de qualquer professor!</h1>
+    </div>
+
+    <input type="text" placeholder="ID do pdf" class="id">
+    <h2 class="status"
+        style="display:none;color:white;font-size: 20px;font-family: Arial, Helvetica, sans-serif;text-shadow: 1px 1px 3px rgb(255, 0, 0);">
+        Invadindo</h2>
+    <button class="invadir">Acessar</button>
+    <h3 style="margin:10px 0px">PDFs prontos abaixo:</h3>
+
+    <button class="pdf" style="display:none">
+        nome
+    </button>
+
+    <script>
+        const invadir = document.querySelector(".invadir")
+        const status = document.querySelector(".status")
+        const id = document.querySelector(".id")
+        function atualizar(text, cor) {
+            cor = cor || 'white'
+            status.style.display = 'block'
+            status.textContent = text
+            status.style['text-shadow'] = '1px 1px 3px ' + cor
+        }
+        function existe(site) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", site, false);
+            try {
+                xhr.send();
+                return xhr.status === 200;
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        function sumir() {
+            status.style.display = 'none'
+        }
+        invadir.addEventListener("click", async () => {
+            if (id.value !== '') {
+                atualizar("Caso não entre no PDF, provavelmente o seu ID está errado ou não é um ID oficial do CMSP!", 'rgb(255, 255, 0)')
+                const link = `https://acervocmsp.educacao.sp.gov.br/${id.value}.pdf`
+
+                setTimeout(function(){
+                    
+                    window.location.replace(link)
+                }, (Math.random()*1.5) * 3000)
+            } else {
+                atualizar("Insira o id primeiro!", 'rgb(255, 0, 0)')
+                setTimeout(sumir, 1500)
+            }
+        })
+
+        const prontos = [
+            ['Inglês', '97299/566310', 'red'],
+            ["Português", "99897/569805", 'blue'],
+            
+        ]
+
+        for (v of prontos) {
+            const botao = document.querySelector(".pdf").cloneNode()
+
+            botao.style.display = 'block'
+            botao.textContent = v[0]
+            botao.style.margin = '5px 0px'
+            botao.style.width = '80%'
+            botao.style["text-shadow"] = '1px 1px 3px '+v[2]
+            botao.addEventListener("click", () => {
+                const link = `https://acervocmsp.educacao.sp.gov.br/${v[1]}.pdf`
+                window.location.replace(link)
+            })
+            document.querySelector("body").appendChild(botao)
+        }
+    </script>
+</body>
+
+</html>
